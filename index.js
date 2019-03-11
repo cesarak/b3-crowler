@@ -4,6 +4,7 @@ var ProgressBar = require('progress');
 
 const domain = "http://www.b3.com.br";
 const fileName = "partdir_NOVOv2.xls";
+const tempDirectory = './tmp/';
 
 console.log("Inicializando");
 // let date = new Date();
@@ -56,7 +57,7 @@ c.queue([{
             let finalPath = domain + auxFinalPath + fileName;
             // console.log(finalPath);
 
-            const output = './tmp/' + fileName;
+            const output = tempDirectory + fileName;
             const options = {
                 // see options below
             };
