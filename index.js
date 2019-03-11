@@ -1,12 +1,20 @@
 var Crawler = require("crawler");
 const wget = require('wget-improved');
 var ProgressBar = require('progress');
+const fs = require('fs');
 
 const domain = "http://www.b3.com.br";
 const fileName = "partdir_NOVOv2.xls";
 const tempDirectory = './tmp/';
 
 console.log("Inicializando");
+
+fs.exists(tempDirectory, exists=>{
+    if (!exists) {
+        fs.mkdir(tempDirectory,err=>{
+        });
+    }
+})
 // let date = new Date();
 // let auxDate = date.toLocaleDateString()
 //     .replace(/-/g, '');
