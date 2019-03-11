@@ -1,0 +1,17 @@
+{
+  "name": "web-crowler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "crawler": "^1.2.0",
+    "progress": "^2.0.3",
+    "wget-improved": "^3.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
