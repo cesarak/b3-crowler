@@ -6,12 +6,12 @@ const domain = "http://www.b3.com.br";
 const fileName = "partdir_NOVOv2.xls";
 
 console.log("Inicializando");
-let date = new Date();
-let auxDate = date.toLocaleDateString()
-    .replace(/-/g, '');
-let auxTime = date.toLocaleTimeString()
-    .replace(/:/g, '');
-const dateString = auxDate + auxTime
+// let date = new Date();
+// let auxDate = date.toLocaleDateString()
+//     .replace(/-/g, '');
+// let auxTime = date.toLocaleTimeString()
+//     .replace(/:/g, '');
+// const dateString = auxDate + auxTime
 var bar = null;
 var c = new Crawler({
     maxConnections: 10,
@@ -56,7 +56,7 @@ c.queue([{
             let finalPath = domain + auxFinalPath + fileName;
             // console.log(finalPath);
 
-            const output = './tmp/' + dateString + "-" + fileName;
+            const output = './tmp/' + fileName;
             const options = {
                 // see options below
             };
