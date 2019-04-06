@@ -2,13 +2,15 @@ var Crawler = require("crawler");
 const wget = require('wget-improved');
 var ProgressBar = require('progress');
 const fs = require('fs');
+const converter = require("xls-to-json"); 
+XLSX = require('xlsx');
 
 const domain = "http://www.b3.com.br";
 const fileName = "partdir_NOVOv2.xls";
+const resultFileName = "resultado.xls";
 const tempDirectory = './tmp/';
 
 console.log("Inicializando");
-
 fs.exists(tempDirectory, exists=>{
     if (!exists) {
         fs.mkdir(tempDirectory,err=>{
@@ -81,10 +83,9 @@ c.queue([{
                 });
             });
             download.on('end', function (output) {
-                // console.log(output);
                 console.log("Download da planilha finalizado.");
-
-            });
+                createXLS();
+        });
             download.on('progress', function (progress) {
                 typeof progress === 'number'
                 bar.tick(progress * 100);
@@ -94,4 +95,27 @@ c.queue([{
     }
 }]);
 
-// http://www.b3.com.br/data/files/67/51/48/C5/D2E596101F9D6396AC094EA8/partdir_NOVOv2.xls
+function createXLS() {
+    const path = 'tmp/partdir_NOVOv2.xls';
+    const finalPath = 'consolidado.xls';
+    const wbNewData = XLSX.readFile(path, {cellStyles:true});
+    const wbSavedData = XLSX.readFile(finalPath, {cellStyles:true});
+    
+    /* novos dados recuperados do servidor*/
+    let wsNewData = wbNewData.Sheets[wbNewData.SheetNames[0]];
+    let jsonNewData = XLSX.utils.sheet_to_json(wsNewData,{header:'A', skipHeader:true});
+    
+    /* dados já armazenados */
+    let wsSavedData = wbSavedData.Sheets[wbSavedData.SheetNames[0]];
+    let jsonSavedData = XLSX.utils.sheet_to_json(wsSavedData,{header:'A', skipHeader:true});
+    
+    let jsonRetorno = jsonNewData;
+    jsonRetorno.push('');
+    jsonSavedData.forEach(row => {
+        jsonRetorno.push(row);
+    });
+    var workbook = XLSX.utils.book_new();
+    let updatedWS = XLSX.utils.json_to_sheet(jsonRetorno)
+    XLSX.utils.book_append_sheet(workbook, updatedWS, 'resultado');
+    XLSX.writeFile(workbook, finalPath);
+}
